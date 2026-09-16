@@ -1,14 +1,14 @@
-# ⚡ API 试炼场 TryAPI · 部署包
+# ⚡ API 试炼场 · 部署包
 
 > **数据来源：本项目全部 1826 个接口条目均摘自 [public-apis/public-apis](https://github.com/public-apis/public-apis)（MIT License）**
 > 原仓库是社区维护的免费 API 合集（⭐ 480k+）。本部署包在其之上增加了「可用性实测数据 + 一键调用调试台」，
 > 未对原始数据做任何删改。
 >
-> 项目名：**API 试炼场（TryAPI）** —— 1826 个公开 API，点一下就看到真实返回。
+> 项目名：**API 试炼场（Public APIs Playground）** —— 1826 个公开 API，点一下就看到真实返回。
 > 完整项目说明与免责声明见上一级 `README.md`。
 
 技术栈：nginx（静态托管 + 反向代理）+ systemd（进程守护）+ Python 标准库（CORS 代理）。
-本项目开源仓库：<https://github.com/LambdaJoker/tryapi>
+本项目开源仓库：<https://github.com/LambdaJoker/public-apis-playground>
 
 ---
 
@@ -38,7 +38,7 @@
 | 文件 | 作用 |
 |---|---|
 | `deploy/install.sh` | 一键安装（探测 Python → systemd → 自测 → nginx → reload） |
-| `deploy/nginx-tryapi.conf` | nginx vhost **模板**，占位符由 install.sh 替换 |
+| `deploy/nginx-playground.conf` | nginx vhost **模板**，占位符由 install.sh 替换 |
 | `deploy/public-apis-playground.service` | systemd unit 模板 |
 | `deploy/site.env.example` | 部署配置样例，复制为 `site.env` 后填写域名 |
 | `deploy/site.env` | 本机实际配置（**不入库**，见 `.gitignore`） |

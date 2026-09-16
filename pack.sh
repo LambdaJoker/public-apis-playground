@@ -15,14 +15,14 @@ OUT="$ROOT/deploy/public-apis-playground.tar.gz"
 [ -d "$SRC" ] || { echo "✗ 找不到 $SRC"; exit 1; }
 
 # 打包前做一次基本体检，避免把半成品打进去
-for f in site/index.html scripts/serve.py deploy/install.sh deploy/nginx-tryapi.conf; do
+for f in site/index.html scripts/serve.py deploy/install.sh deploy/nginx-playground.conf; do
   [ -f "$SRC/$f" ] || { echo "✗ 部署包缺少 $f，请检查"; exit 1; }
 done
 
 # ---- 在临时目录里统一换行为 LF 后再打包 ----
 # Windows 上编辑过的文件很可能是 CRLF，直接打进 tar 会让 install.sh / *.service
 # 在 Linux 上报 `\r: command not found` 之类的错。这里做一次归一化，源文件不动。
-TMP="$(mktemp -d 2>/dev/null || mktemp -d -t tryapi)"
+TMP="$(mktemp -d 2>/dev/null || mktemp -d -t public-apis-playground)"
 # Windows 上 rm 可能被安全软件/沙箱包一层，清理失败不应影响打包结果
 trap 'rm -rf "$TMP" 2>/dev/null || true' EXIT INT TERM
 cp -a "$SRC" "$TMP/"

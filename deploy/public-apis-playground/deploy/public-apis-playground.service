@@ -1,6 +1,6 @@
 [Unit]
-Description=API TryAPI Playground (static site + CORS proxy)
-Documentation=https://github.com/LambdaJoker/tryapi
+Description=Public APIs Playground (static site + CORS proxy)
+Documentation=https://github.com/LambdaJoker/public-apis-playground
 Documentation=https://github.com/public-apis/public-apis
 After=network-online.target
 Wants=network-online.target

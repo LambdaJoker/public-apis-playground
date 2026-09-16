@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ API 试炼场 · TryAPI
+# ⚡ API 试炼场 · Public APIs Playground
 
 **1826 个公开 API，点一下就看到真实返回。**
 
@@ -12,9 +12,9 @@
 [![实测](https://img.shields.io/badge/%E5%8F%AF%E7%94%A8%E6%80%A7%E5%AE%9E%E6%B5%8B-2026--09-4ade80?style=flat-square)](#-数据规模)
 [![数据来源](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90-public--apis%2Fpublic--apis-ff69b4?style=flat-square)](https://github.com/public-apis/public-apis)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](#-许可)
-[![仓库](https://img.shields.io/badge/GitHub-LambdaJoker%2Ftryapi-181717?style=flat-square)](https://github.com/LambdaJoker/tryapi)
+[![仓库](https://img.shields.io/badge/GitHub-LambdaJoker%2Fpublic-apis-playground-181717?style=flat-square)](https://github.com/LambdaJoker/public-apis-playground)
 
-**开源仓库** <https://github.com/LambdaJoker/tryapi> · **数据来源** <https://github.com/public-apis/public-apis>
+**开源仓库** <https://github.com/LambdaJoker/public-apis-playground> · **数据来源** <https://github.com/public-apis/public-apis>
 
 单文件交付 · 零依赖 · 数据全部内嵌
 
@@ -36,7 +36,7 @@
 
 ## 🎯 这是什么
 
-**API 试炼场（TryAPI）** 是一个**纯前端 + 轻量代理**的公开 API 浏览器与实测台。
+**API 试炼场（Public APIs Playground）** 是一个**纯前端 + 轻量代理**的公开 API 浏览器与实测台。
 
 它把 [public-apis/public-apis](https://github.com/public-apis/public-apis) 这份社区维护的免费 API 合集
 （1826 条、52 个分类）从「一张静态清单」变成了「**能直接点出结果的工作台**」：
@@ -186,7 +186,7 @@ python3 scripts/build_html_v2.py     # 读 data/ 下的数据集 → 产出 site
 ## 🗂 项目结构
 
 ```text
-tryapi/
+public-apis-playground/
 ├── README.md                        # 本文件
 ├── NOTICE.md                        # ⚖️ 来源与许可声明（要读就读这份）
 ├── LICENSE                          # 本项目 MIT 许可全文
@@ -215,7 +215,7 @@ tryapi/
         ├── data/                            # 数据集与探测结果
         ├── deploy/                          # install.sh / nginx 模板 / systemd unit / site.env
         │   ├── install.sh                   #   一键安装（含失败自动回滚）
-        │   ├── nginx-tryapi.conf            #   nginx vhost 模板（占位符由脚本替换）
+        │   ├── nginx-playground.conf            #   nginx vhost 模板（占位符由脚本替换）
         │   ├── site.env.example             #   部署配置样例 → 复制为 site.env
         │   └── public-apis-playground.service
         └── README.md                        # 部署与运维说明
@@ -262,7 +262,7 @@ tryapi/
 
 | | 仓库地址 | 说明 |
 |---|---|---|
-| **本项目** | <https://github.com/LambdaJoker/tryapi> | API 试炼场 TryAPI 全部源码：页面生成器、CORS 代理、数据流水线、部署包 |
+| **本项目** | <https://github.com/LambdaJoker/public-apis-playground> | API 试炼场 全部源码：页面生成器、CORS 代理、数据流水线、部署包 |
 | **数据来源** | <https://github.com/public-apis/public-apis> | 1826 条接口条目的原始仓库（分类 / 说明 / 鉴权 / HTTPS / CORS） |
 
 两个仓库都是 **MIT License**，可以自由使用、修改、分发（保留版权声明即可）。
@@ -293,8 +293,8 @@ https://<你的域名>/LICENSE-public-apis    上游 MIT 全文
 
 <div align="center">
 
-**API 试炼场 · TryAPI** ·
-[github.com/LambdaJoker/tryapi](https://github.com/LambdaJoker/tryapi) ·
+**API 试炼场 · Public APIs Playground** ·
+[github.com/LambdaJoker/public-apis-playground](https://github.com/LambdaJoker/public-apis-playground) ·
 数据源自 [public-apis/public-apis](https://github.com/public-apis/public-apis) ·
 共 1826 个接口 · 精选可直连 57 个 · MIT License
 

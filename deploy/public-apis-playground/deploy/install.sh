@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# API 试炼场 TryAPI · 一键安装
+# API 试炼场 · 一键安装
 # 数据来源：https://github.com/public-apis/public-apis (MIT License)
-# 项目仓库：https://github.com/LambdaJoker/tryapi
+# 项目仓库：https://github.com/LambdaJoker/public-apis-playground
 #
 # 用法（在部署包根目录下）：
 #     DOMAIN=api.example.com bash deploy/install.sh
@@ -44,7 +44,7 @@ else
 fi
 
 SERVICE=public-apis-playground
-CONF_SRC="$SCRIPT_DIR/nginx-tryapi.conf"
+CONF_SRC="$SCRIPT_DIR/nginx-playground.conf"
 PORT="${PORT:-8899}"
 DOMAIN="${DOMAIN:-}"
 DOMAIN_ALT="${DOMAIN_ALT:-}"
@@ -200,7 +200,7 @@ done
 if [ -z "$CONF_DIR" ] && [ -d /etc/nginx/sites-available ]; then
   CONF_DIR="/etc/nginx/sites-available"; LINK_DIR="/etc/nginx/sites-enabled"
 fi
-[ -n "$CONF_DIR" ] || die "找不到 nginx 配置目录，请手动把 deploy/nginx-tryapi.conf 放进配置目录"
+[ -n "$CONF_DIR" ] || die "找不到 nginx 配置目录，请手动把 deploy/nginx-playground.conf 放进配置目录"
 
 TARGET="$CONF_DIR/$DOMAIN.conf"
 ROLLBACK=""
@@ -256,5 +256,5 @@ echo  "  服务管理   systemctl {status,restart,stop} $SERVICE"
 echo  "  日志       journalctl -u $SERVICE -f"
 echo  "  自查       curl -H 'Host: $DOMAIN' http://127.0.0.1/healthz"
 echo
-echo  "  项目仓库   https://github.com/LambdaJoker/tryapi"
+echo  "  项目仓库   https://github.com/LambdaJoker/public-apis-playground"
 echo  "  数据来源   https://github.com/public-apis/public-apis (MIT License)"

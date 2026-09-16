@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>API 试炼场 TryAPI · 1826 个公开 API 一键实测</title>
+<title>API 试炼场 · 1826 个公开 API 一键实测</title>
 <style>
 :root{
   --bg:#080b12; --bg-soft:#0d1220; --panel:#111827; --panel2:#161f31;
@@ -39,11 +39,22 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .srcbadge.mine{background:rgba(96,165,250,.11);border-color:rgba(96,165,250,.4);color:#bfdbfe}
 .srcbadge.mine:hover{border-color:#60a5fa;color:#eff6ff}
 .srcbadge.mine b{color:#dbeafe}
-/* 顶栏空间规划：宽屏两个徽章 + 统计数字同框；
-   ≤1600 收掉统计数字给徽章让位；≤1200 只留「开源仓库」徽章
-   （数据来源在页脚有完整卡片，不会丢信息） */
-@media(max-width:1600px){.top .topstats{display:none}}
-@media(max-width:1200px){.badges .optional{display:none}}
+/* 顶栏空间规划：宽屏「统计数字 + 两个徽章」同框；空间不够时按信息价值依次让位。
+   被收掉的信息在页面别处仍有完整展示（页脚有仓库卡片 + 数据来源卡片），不丢信息。
+   ⚠️ 阈值是按实测的溢出临界宽度定的，本项目徽章文案较长
+   （LambdaJoker/public-apis-playground）；改徽章文案 / 增删顶栏元素后要重新扫一遍宽度。 */
+@media(max-width:1700px){.top .topstats{display:none}}          /* ① 先收统计数字 */
+@media(max-width:1400px){.badges .optional{display:none}}       /* ② 再收「数据来源」徽章 */
+@media(max-width:1180px){.badges .bowner{display:none}}         /* ③ 仓库徽章只留仓库名（省掉 LambdaJoker/）*/
+/* ④ 极窄屏收掉品牌副标题（接口数在页脚仍有）。
+   注意：必须写成 .top .brand span —— .brand span 的基础规则在本文档更靠后，
+   同优先级会被它盖掉（这个坑踩过一次）。 */
+@media(max-width:1040px){.top .brand span{display:none}}
+/* ⑤ 更窄时顶栏换行：搜索框独占一行，避免一行里塞不下（品牌 + 视图切换 + 徽章 + 搜索框） */
+@media(max-width:812px){
+  .top{flex-wrap:wrap}
+  .search{order:9;flex:1 1 100%;max-width:none}
+}
 
 /* ============ 页脚：仓库地址卡片 ============ */
 .repogrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 2px}
@@ -445,7 +456,7 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
 <div class="top">
   <div class="brand">
     <div class="logo">⚡</div>
-    <div><h1>API 试炼场<span>TryAPI · public-apis 数据集 · 1826 个接口</span></h1></div>
+    <div><h1>API 试炼场<span>public-apis-playground · public-apis 数据集 · 1826 个接口</span></h1></div>
   </div>
   <div class="search">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -464,10 +475,10 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
     <div class="tstat"><b>1826</b> 总数</div>
   </div>
   <div class="badges">
-    <a class="srcbadge mine" href="https://github.com/LambdaJoker/tryapi" target="_blank" rel="noopener"
-       title="本项目开源仓库：LambdaJoker/tryapi（MIT License）">
+    <a class="srcbadge mine" href="https://github.com/LambdaJoker/public-apis-playground" target="_blank" rel="noopener"
+       title="本项目开源仓库：LambdaJoker/public-apis-playground（MIT License）">
       <svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-      开源仓库 <b>LambdaJoker/tryapi</b> ↗
+      开源仓库 <b><span class="bowner">LambdaJoker/</span>public-apis-playground</b> ↗
     </a>
     <a class="srcbadge optional" href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener"
        title="数据来源：public-apis/public-apis（MIT License）">
@@ -530,12 +541,12 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
 <footer class="src">
   <h3>🔗 仓库与许可</h3>
   <div class="repogrid">
-    <a class="repobox" href="https://github.com/LambdaJoker/tryapi" target="_blank" rel="noopener"
+    <a class="repobox" href="https://github.com/LambdaJoker/public-apis-playground" target="_blank" rel="noopener"
        title="本项目开源仓库（MIT License）">
       <span class="rbtag">本项目</span>
-      <b>LambdaJoker/tryapi</b>
-      <span class="rbdesc">API 试炼场 TryAPI 全部源码：页面生成器、CORS 代理、数据流水线、部署包</span>
-      <span class="rburl">github.com/LambdaJoker/tryapi ↗</span>
+      <b>LambdaJoker/public-apis-playground</b>
+      <span class="rbdesc">API 试炼场 全部源码：页面生成器、CORS 代理、数据流水线、部署包</span>
+      <span class="rburl">github.com/LambdaJoker/public-apis-playground ↗</span>
     </a>
     <a class="repobox src" href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener"
        title="数据来源仓库（MIT License）">
@@ -586,8 +597,8 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
     </div>
   </div>
   <div class="fnote" style="text-align:center;margin-top:18px">
-    API 试炼场 TryAPI ·
-    <a href="https://github.com/LambdaJoker/tryapi" target="_blank" rel="noopener">github.com/LambdaJoker/tryapi</a> ·
+    API 试炼场 · Public APIs Playground
+    <a href="https://github.com/LambdaJoker/public-apis-playground" target="_blank" rel="noopener">github.com/LambdaJoker/public-apis-playground</a> ·
     数据源自 <a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener">public-apis/public-apis</a> ·
     共 1826 个接口 · 精选可直连 57 个 · MIT License
   </div>
