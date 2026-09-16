@@ -23,7 +23,8 @@ done
 # Windows 上编辑过的文件很可能是 CRLF，直接打进 tar 会让 install.sh / *.service
 # 在 Linux 上报 `\r: command not found` 之类的错。这里做一次归一化，源文件不动。
 TMP="$(mktemp -d 2>/dev/null || mktemp -d -t tryapi)"
-trap 'rm -rf "$TMP"' EXIT
+# Windows 上 rm 可能被安全软件/沙箱包一层，清理失败不应影响打包结果
+trap 'rm -rf "$TMP" 2>/dev/null || true' EXIT INT TERM
 cp -a "$SRC" "$TMP/"
 
 if command -v python3 >/dev/null 2>&1; then PY3=python3

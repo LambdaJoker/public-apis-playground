@@ -104,7 +104,10 @@ chmod +x "$APP_DIR/scripts/serve.py" 2>/dev/null || true
 
 # 把协议与说明文件同步到 site/，供 nginx 的 /README.md、/LICENSE 等路由直接访问
 for f in README.md NOTICE.md LICENSE LICENSE-public-apis; do
-  [ -f "$APP_DIR/$f" ] && cp -f "$APP_DIR/$f" "$APP_DIR/site/$f"
+  if [ -f "$APP_DIR/$f" ]; then
+    cp -f "$APP_DIR/$f" "$APP_DIR/site/$f"
+    ok "同步 site/$f"
+  fi
 done
 ok "site/ scripts/ data/ 就绪，包大小 $(du -sh "$APP_DIR" 2>/dev/null | cut -f1)"
 

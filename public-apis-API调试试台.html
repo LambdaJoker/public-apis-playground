@@ -39,7 +39,11 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .srcbadge.mine{background:rgba(96,165,250,.11);border-color:rgba(96,165,250,.4);color:#bfdbfe}
 .srcbadge.mine:hover{border-color:#60a5fa;color:#eff6ff}
 .srcbadge.mine b{color:#dbeafe}
-@media(max-width:1500px){.badges .optional{display:none}}
+/* 顶栏空间规划：宽屏两个徽章 + 统计数字同框；
+   ≤1600 收掉统计数字给徽章让位；≤1200 只留「开源仓库」徽章
+   （数据来源在页脚有完整卡片，不会丢信息） */
+@media(max-width:1600px){.top .topstats{display:none}}
+@media(max-width:1200px){.badges .optional{display:none}}
 
 /* ============ 页脚：仓库地址卡片 ============ */
 .repogrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 2px}
