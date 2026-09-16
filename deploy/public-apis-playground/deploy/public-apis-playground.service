@@ -1,0 +1,31 @@
+[Unit]
+Description=API TryAPI Playground (static site + CORS proxy)
+Documentation=https://github.com/LambdaJoker/tryapi
+Documentation=https://github.com/public-apis/public-apis
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/public-apis-playground/scripts
+Environment=NO_OPEN=1
+Environment=BIND=127.0.0.1
+Environment=PYTHONUNBUFFERED=1
+# __PYTHON__ 由 install.sh 替换为探测到的 python3 绝对路径。
+# 不能用 `ExecStart=/usr/bin/env python3`：systemd 默认 PATH 不含 /opt/aiext/bin 这类
+# 自定义环境，会落到系统 python3.6，而 ThreadingHTTPServer 需要 3.7+。
+ExecStart=__PYTHON__ /opt/public-apis-playground/scripts/serve.py 8899
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=public-apis-playground
+
+# 轻量加固（服务只需读文件 + 出网）
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

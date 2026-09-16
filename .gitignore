@@ -1,0 +1,25 @@
+# ---- 构建产物（用 `bash pack.sh` 随时重新生成）----
+deploy/*.tar.gz
+
+# ---- 本机部署配置（域名 / 服务器 IP 留在本地）----
+deploy/public-apis-playground/deploy/site.env
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 本地临时文件 ----
+*.local
+*.log
+*.bak
+*.bak-*

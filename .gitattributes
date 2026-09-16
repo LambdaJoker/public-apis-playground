@@ -1,0 +1,20 @@
+# 换行统一：仓库内一律 LF，避免 Windows 上 checkout 出 CRLF 把 shell 脚本跑废
+* text=auto eol=lf
+
+# Windows 批处理必须 CRLF
+*.bat text eol=crlf
+
+# 二进制文件不要做任何换行/文本处理
+*.xlsx binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# 这些文件在 GitHub 上按对应语言高亮，也便于 diff
+*.py   text
+*.sh   text
+*.conf text
+*.html diff
+*.json text
