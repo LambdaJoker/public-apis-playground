@@ -1497,12 +1497,15 @@ async function detectProxy(){
   } catch(e){ PROXY = false; }
   const el = $("modeBadge");
   if (el){
+    // 徽章只留一行短状态；详细说明放 title，鼠标悬浮可见，不占版面
     if (PROXY){
       el.className = "mode on";
-      el.innerHTML = "🟢 <b>本地代理已连接</b> · 全部接口均可调用（已绕过跨域限制）";
+      el.title = "全部接口均可调用（已绕过跨域限制）";
+      el.innerHTML = "🟢 <b>本地代理已连接</b>";
     } else {
       el.className = "mode off";
-      el.innerHTML = "🟡 <b>直连模式</b> · 仅跨域开放的接口可用 —— 运行 <b>serve.py</b> 可解锁全部接口";
+      el.title = "仅跨域开放的接口可用 —— 运行 serve.py 可解锁全部接口";
+      el.innerHTML = "🟡 <b>直连模式</b>";
     }
   }
 }
