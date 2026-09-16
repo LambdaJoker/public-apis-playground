@@ -337,13 +337,62 @@ footer.src .fnote{margin-top:14px;font-size:11.5px;color:var(--txt3)}
 .ctype{font-size:10.5px;padding:2px 7px;border-radius:5px;font-weight:700}
 .ctype.json{background:var(--green-d);color:var(--green);border:1px solid rgba(74,222,128,.3)}
 .ctype.image{background:var(--blue-d);color:var(--blue);border:1px solid rgba(96,165,250,.3)}
-.inline-res{margin-top:4px;border-top:1px dashed var(--line2);padding-top:10px}
-.inline-res img{max-width:100%;border-radius:8px;display:block;border:1px solid var(--line2)}
-.inline-res pre{background:#070a10;border:1px solid var(--line);border-radius:8px;padding:10px;
-  font-size:11.5px;line-height:1.6;max-height:220px;overflow:auto;color:#cbd5e1;
-  font-family:ui-monospace,Consolas,monospace}
+/* ============ 卡片内的紧凑结果条（完整结果走弹窗，不撑高卡片） ============ */
+.cres{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px;padding:7px 10px;
+  border-radius:9px;font-size:11.5px;line-height:1.5;
+  background:var(--bg-soft);border:1px solid var(--line2);color:var(--txt2)}
+.cres.ok{border-color:rgba(74,222,128,.34);background:var(--green-d);color:var(--green)}
+.cres.bad{border-color:rgba(248,113,113,.34);background:rgba(248,113,113,.07);color:var(--red)}
+.cres b{color:#fff;font-weight:600}
+.cres .vbtn{margin-left:auto;padding:4px 10px;border-radius:7px;cursor:pointer;font-size:11.5px;
+  background:var(--panel);border:1px solid var(--line2);color:var(--txt);transition:.14s;white-space:nowrap}
+.cres .vbtn:hover{border-color:var(--green);color:var(--green)}
+
+/* ============ 结果弹窗 / 历史面板 ============ */
+.rmask{position:fixed;inset:0;background:rgba(4,7,12,.7);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:.2s;z-index:100}
+.rmask.on{opacity:1;pointer-events:auto}
+.rmodal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(1000px,94vw);
+  max-height:88vh;background:var(--bg-soft);border:1px solid var(--line2);border-radius:14px;
+  z-index:110;display:none;flex-direction:column;overflow:hidden;box-shadow:var(--sh)}
+.rmodal.on{display:flex;animation:rin .2s cubic-bezier(.32,.72,0,1)}
+@keyframes rin{from{opacity:0;transform:translate(-50%,-47%) scale(.97)}
+               to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.rmodal.slim{width:min(680px,94vw)}
+.rhead{display:flex;align-items:flex-start;gap:12px;padding:15px 18px;border-bottom:1px solid var(--line)}
+.rhead .ttl{flex:1;min-width:0}
+.rhead h2{font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rhead .sub{font-size:11.5px;color:var(--txt3);margin-top:6px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.rbody{flex:1;overflow:auto;padding:15px 18px 20px}
+.rbody::-webkit-scrollbar{width:8px}
+.rbody::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
+.rfoot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:11px 18px;
+  border-top:1px solid var(--line);background:var(--panel)}
+.rfoot .sp{margin-left:auto}
+.rnote{font-size:11px;color:var(--txt3);line-height:1.7}
+
+/* ============ 调用历史 ============ */
+.histbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:9px;
+  font-size:12.5px;cursor:pointer;transition:.14s;background:var(--panel2);
+  border:1px solid var(--line2);color:var(--txt2)}
+.histbtn:hover{border-color:var(--blue);color:var(--txt)}
+.histbtn b{background:var(--blue-d);color:var(--blue);border-radius:6px;padding:1px 7px;
+  font-size:11px;font-weight:700}
+.histbtn[disabled]{opacity:.45;cursor:default}
+.histbtn[disabled]:hover{border-color:var(--line2);color:var(--txt2)}
+.hist{display:flex;flex-direction:column;gap:7px}
+.hitem{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line);cursor:pointer;transition:.14s}
+.hitem:hover{border-color:var(--line2);transform:translateX(2px)}
+.hitem .hn{flex:1;min-width:0}
+.hitem .hn b{display:block;font-size:13px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hitem .hn span{font-size:11px;color:var(--txt3);font-family:ui-monospace,Consolas,monospace;
+  display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.hitem .hm{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.hitem .hm .t{font-size:10.5px;color:var(--txt3)}
+.hempty{text-align:center;color:var(--txt3);padding:36px 12px;font-size:12.5px;line-height:1.9}
 .errline{color:var(--red);font-size:12px;line-height:1.6}
-.modebar{margin:0 0 13px}
+.modebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 13px}
 .mode{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;padding:7px 13px;
   border-radius:9px;line-height:1.4}
 .mode.on{background:var(--green-d);color:var(--green);border:1px solid rgba(74,222,128,.35)}
@@ -540,7 +589,12 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
 <div class="layout">
   <aside class="side" id="side"></aside>
   <main class="main">
-    <div class="modebar"><span class="mode off" id="modeBadge">⏳ 正在检测调用通道…</span></div>
+    <div class="modebar">
+      <span class="mode off" id="modeBadge">⏳ 正在检测调用通道…</span>
+      <button class="histbtn" id="histBtn" disabled title="本次会话的调用记录（刷新页面即全部释放）">
+        🕘 调用历史 <b id="histNum">0</b>
+      </button>
+    </div>
     <section id="viewCurated">
       <div class="sec-head">
         <h2>⚡ 开箱即用 · 点一下直接出结果</h2>
@@ -659,6 +713,39 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
   </div>
   <div class="dbody" id="dBody"></div>
 </aside>
+
+<div class="rmask" id="rmask"></div>
+
+<!-- ============ 结果弹窗（点「调用」后在此展示，卡片不再被撑高） ============ -->
+<section class="rmodal" id="rModal" role="dialog" aria-modal="true" aria-labelledby="rTitle">
+  <div class="rhead">
+    <div class="ttl">
+      <h2 id="rTitle">—</h2>
+      <div class="sub" id="rSub"></div>
+    </div>
+    <button class="close" id="rClose" title="关闭（结果仍保留在「调用历史」里）">✕</button>
+  </div>
+  <div class="rbody" id="rBody"></div>
+  <div class="rfoot" id="rFoot"></div>
+</section>
+
+<!-- ============ 调用历史（仅存内存，刷新即清空） ============ -->
+<section class="rmodal slim" id="hModal" role="dialog" aria-modal="true" aria-labelledby="hTitle">
+  <div class="rhead">
+    <div class="ttl">
+      <h2 id="hTitle">🕘 调用历史</h2>
+      <div class="sub"><span id="hSub">本次会话的调用记录，点任意一条可重新查看</span></div>
+    </div>
+    <button class="close" id="hClose" title="关闭">✕</button>
+  </div>
+  <div class="rbody"><div class="hist" id="hList"></div></div>
+  <div class="rfoot">
+    <span class="rnote">🔒 记录只存在当前页面内存中 · <b>刷新页面即全部释放</b></span>
+    <span class="sp"></span>
+    <button class="btn icon" id="hClear">🗑 清空</button>
+  </div>
+</section>
+
 <div class="toast" id="toast">已复制</div>
 
 <script>
@@ -686,6 +773,166 @@ function showToast(msg){
 function copy(text, msg){
   const p = navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject();
   p.then(() => showToast(msg || "已复制")).catch(() => window.prompt("手动复制：", text));
+}
+
+/* ================= 调用历史 + 结果弹窗 =================
+   历史只存在内存数组里，不写 localStorage / sessionStorage —— 刷新页面即全部释放。 */
+const HIST_MAX = 60;
+let HIST = [];        // 最近的调用记录（新的在前）
+let RSEQ = 0;
+
+const rmask = $("rmask"), rModal = $("rModal"), hModal = $("hModal");
+function anyModalOn(){ return rModal.classList.contains("on") || hModal.classList.contains("on"); }
+function closeModal(){
+  rModal.classList.remove("on");
+  hModal.classList.remove("on");
+  rmask.classList.remove("on");
+}
+function addHist(rec){
+  rec.id = ++RSEQ;
+  rec.ts = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+  HIST.unshift(rec);
+  if (HIST.length > HIST_MAX) HIST.length = HIST_MAX;
+  syncHistBtn();
+  return rec;
+}
+function syncHistBtn(){
+  $("histNum").textContent = HIST.length;
+  $("histBtn").disabled = HIST.length === 0;
+}
+function recText(rec){
+  if (rec.dataUri) return rec.url;
+  return rec.isJSON ? JSON.stringify(rec.body, null, 2) : (rec.rawText || "");
+}
+function downloadRec(rec){
+  const text = recText(rec);
+  const blob = new Blob([text], { type: rec.isJSON ? "application/json" : "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = (rec.name || "result").replace(/[^\w\u4e00-\u9fa5-]/g, "_") + (rec.isJSON ? ".json" : ".txt");
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function subHTML(rec){
+  let h = rec.error
+    ? '<span class="mtag s4">请求失败</span>'
+    : '<span class="mtag ' + (rec.status >= 200 && rec.status < 300 ? "s2" : "s4") + '">HTTP ' + rec.status + '</span>';
+  if (rec.ms != null) h += '<span class="mtag muted">' + rec.ms + ' ms</span>';
+  if (rec.kb != null) h += '<span class="mtag muted">' + rec.kb + ' KB</span>';
+  if (!rec.error){
+    h += rec.dataUri ? '<span class="mtag muted">图片</span>'
+       : rec.isJSON ? '<span class="mtag s2">JSON</span>' : '<span class="mtag muted">文本</span>';
+    if (rec.via) h += '<span class="mtag muted">' + (rec.via === "proxy" ? "代理转发" : "直连") + '</span>';
+  }
+  h += '<span style="color:var(--txt3)">🕘 ' + esc(rec.ts || "") + '</span>';
+  return h;
+}
+/* 弹窗里的结果视图：渲染优先，可切原始 JSON */
+function openResult(rec){
+  if (!rec) return;
+  $("rTitle").textContent = rec.name || "调用结果";
+  $("rSub").innerHTML = subHTML(rec);
+  const body = $("rBody"), foot = $("rFoot");
+  foot.innerHTML = "";
+
+  if (rec.error){
+    body.innerHTML =
+      '<div class="hintbox err">' + esc(rec.error) + '</div>' +
+      '<div class="hintbox">' + (rec.hint || "常见原因：<b>跨域未开放</b>、网络不可达、或该地址不是数据端点。") + '</div>' +
+      '<div class="res-tabs"><button class="on">原始错误</button></div>' +
+      '<pre class="code" style="max-height:44vh">' + esc(rec.error) + '</pre>';
+  } else if (rec.dataUri){
+    body.innerHTML = '<img src="' + rec.dataUri + '" alt="' + esc(rec.name || "") +
+      '" style="max-width:100%;border-radius:10px;border:1px solid var(--line2);display:block">';
+  } else {
+    const smart = rec.smart || (rec.smart = renderSmart(rec.isJSON ? rec.body : rec.rawText, rec.isJSON));
+    const rawHTML = '<pre class="code" style="max-height:60vh">' +
+      (rec.isJSON ? hlJSON(rec.body) : esc(String(rec.rawText || "").slice(0, 200000))) + '</pre>';
+    body.innerHTML =
+      '<div class="res-tabs"><button data-rv="smart" class="on">✨ 渲染结果</button>' +
+      '<button data-rv="raw">' + (rec.isJSON ? "{} 原始 JSON" : "原始文本") + '</button></div>' +
+      '<div id="rBox">' + smart.html + '</div>';
+    const rBox = $("rBox");
+    bindImgErrors(rBox);
+    body.querySelectorAll("[data-rv]").forEach(b => b.onclick = () => {
+      body.querySelectorAll("[data-rv]").forEach(x => x.classList.toggle("on", x === b));
+      rBox.innerHTML = b.dataset.rv === "smart" ? smart.html : rawHTML;
+      bindImgErrors(rBox);
+    });
+  }
+
+  const mkBtn = (label, title, fn) => {
+    const b = document.createElement("button");
+    b.className = "btn icon"; b.textContent = label; b.title = title; b.onclick = fn;
+    return b;
+  };
+  if (!rec.error){
+    foot.appendChild(mkBtn("⧉ 复制结果", "复制到剪贴板", () => copy(recText(rec), "结果已复制")));
+    if (!rec.dataUri) foot.appendChild(mkBtn("⭳ 下载", "下载为文件", () => downloadRec(rec)));
+  }
+  if (rec.apiRef) foot.appendChild(mkBtn("⚙ 在调试台打开", "改参数 / 看等价代码", () => {
+    closeModal(); openDrawer(rec.apiRef.d, rec.apiRef.opts);
+  }));
+  const sp = document.createElement("span"); sp.className = "sp"; foot.appendChild(sp);
+  foot.appendChild(mkBtn("🕘 调用历史", "本次会话的全部调用记录", openHist));
+  const cbtn = document.createElement("button");
+  cbtn.className = "btn"; cbtn.textContent = "关闭"; cbtn.onclick = closeModal;
+  foot.appendChild(cbtn);
+
+  hModal.classList.remove("on");
+  rModal.classList.add("on");
+  rmask.classList.add("on");
+  body.scrollTop = 0;
+}
+function renderHist(){
+  const list = $("hList");
+  $("hSub").innerHTML = HIST.length
+    ? '本次会话共 <b>' + HIST.length + '</b> 条记录，点任意一条可重新查看'
+    : '本次会话的调用记录，点任意一条可重新查看';
+  if (!HIST.length){
+    list.innerHTML = '<div class="hempty">还没有调用记录<br>去「⚡ 精选可直连」里点一下 <b>▷ 调用</b> 试试</div>';
+    return;
+  }
+  list.innerHTML = "";
+  HIST.forEach(r => {
+    const el = document.createElement("div");
+    el.className = "hitem";
+    el.innerHTML =
+      '<div class="hn"><b>' + esc(r.name || "调用结果") + '</b><span>' + esc(r.url || "") + '</span></div>' +
+      '<div class="hm">' +
+        (r.error ? '<span class="mtag s4">失败</span>'
+                 : '<span class="mtag ' + (r.status >= 200 && r.status < 300 ? "s2" : "s4") + '">' + r.status + '</span>') +
+        (r.ms != null ? '<span class="t">' + r.ms + ' ms</span>' : '') +
+        '<span class="t">' + esc(r.ts || "") + '</span>' +
+      '</div>';
+    el.onclick = () => openResult(r);
+    list.appendChild(el);
+  });
+}
+function openHist(){
+  renderHist();
+  rModal.classList.remove("on");
+  hModal.classList.add("on");
+  rmask.classList.add("on");
+}
+$("rClose").onclick = closeModal;
+$("hClose").onclick = closeModal;
+rmask.onclick = closeModal;
+$("histBtn").onclick = openHist;
+$("hClear").onclick = () => {
+  if (!HIST.length) return;
+  HIST = []; syncHistBtn(); renderHist();
+  showToast("调用历史已清空");
+};
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && anyModalOn()) closeModal();
+});
+/* 卡片内的紧凑结果条：只报状态，完整结果点「查看结果」在弹窗里看 */
+function compactRes(box, cls, html, rec){
+  box.className = "cres " + cls;
+  box.style.display = "flex";
+  box.innerHTML = html + (rec ? '<button class="vbtn">查看结果</button>' : "");
+  const vb = box.querySelector(".vbtn");
+  if (vb) vb.onclick = () => openResult(rec);
 }
 
 const state = { q:"", cat:null, call:"callable", auth:"all", sort:"idx", shown:PAGE };
@@ -1332,8 +1579,30 @@ async function doCall(){
   }
 }
 
+/* 调试台里发出的请求也记入同一份历史（名字取当前打开的接口） */
+function logDrawerResult(r){
+  if (r.__logged) return;
+  r.__logged = true;
+  const d = cur;
+  const hasImg = !!r.dataUri && !r.error;
+  addHist({
+    name: (d && d.n) || "调试台请求",
+    url: r.url,
+    status: r.status,
+    ms: r.elapsed,
+    error: hasImg ? null : (r.error || null),
+    dataUri: hasImg ? r.dataUri : null,
+    isJSON: !!r.isJSON,
+    body: r.body,
+    rawText: r.text,
+    kind: hasImg ? "image" : (r.isJSON ? "json" : "text"),
+    via: r.via,
+    apiRef: d ? { d, opts: { headers: curHeaders, auto: false, pathVals: curPathVals } } : null
+  });
+}
 function renderResult(){
   const r = lastResult; if (!r) return;
+  logDrawerResult(r);
   if (r.dataUri){
     $("result").innerHTML =
       '<div class="res-meta"><span class="mtag s2">HTTP ' + r.status + '</span>' +
@@ -1474,26 +1743,38 @@ function cardPathVals(card){
   card.querySelectorAll("[data-pk2]").forEach(inp => { v[inp.dataset.pk2] = inp.value.trim(); });
   return v;
 }
+/* 调用失败：记入历史 + 卡片只显示一行，详情看弹窗 */
+function failCurated(card, c, url, vals, err){
+  const msg = String(err && err.message || err);
+  const rec = addHist({
+    name: c.name, url, error: msg,
+    hint: PROXY
+      ? "代理已连接，说明多半是上游接口本身的问题（临时故障 / 已下线 / 限流）。可点「在调试台打开」改写地址重试。"
+      : "当前是<b>直连模式</b>，受浏览器跨域与页面安全策略限制。运行 <b>serve.py</b> 启动本地服务后即可调用全部接口。",
+    apiRef: { d: curatedAsApi(c), opts: { headers: c.headers, auto: false, pathVals: vals } }
+  });
+  compactRes(card.querySelector(".cres"), "bad", "✕ 请求失败", rec);
+}
 async function runCurated(i, card, vals){
   const c = CURATED[i];
   const url = fillPath(c.url, vals || {});
-  const box = card.querySelector(".inline-res");
-  box.style.display = "block";
-  const loading = t => {
-    box.innerHTML = '<div class="loading" style="padding:14px"><div class="spin"></div>' + t + '</div>';
-  };
+  const box = card.querySelector(".cres");
+  const loading = t => compactRes(box, "",
+    '<div class="spin" style="width:13px;height:13px;border-width:2px"></div>' + t, null);
+  const apiRef = () => ({ d: curatedAsApi(c), opts: { headers: c.headers, auto: true, pathVals: vals } });
+
   // 图片类：代理模式走转发（拿到 data URI）；直连模式直接用 <img>（图片不受 CORS 限制）
   if (c.type === "image"){
     if (PROXY){
       loading("加载图片…");
       try {
         const r = await callApi(url, c.headers);
-        box.innerHTML =
-          '<div style="font-size:11.5px;color:var(--txt2);margin-bottom:7px">HTTP ' + r.status +
-          ' · ' + r.ms + ' ms · 代理转发</div>' +
-          '<img src="' + r.dataUri + '" alt="' + esc(c.name) + '">';
+        const rec = addHist({ name: c.name, url, status: r.status, ms: r.ms, dataUri: r.dataUri,
+                              kind: "image", via: r.via, apiRef: apiRef() });
+        compactRes(box, "ok", '✓ 图片已加载 · <b>HTTP ' + r.status + '</b> · ' + r.ms + ' ms', rec);
+        openResult(rec);
       } catch(err){
-        box.innerHTML = '<div class="errline">✕ 图片加载失败：' + esc(err && err.message || err) + '</div>';
+        failCurated(card, c, url, vals, err);
       }
       return;
     }
@@ -1501,13 +1782,17 @@ async function runCurated(i, card, vals){
     const t0i = performance.now();
     const im = new Image();
     im.onload = () => {
-      box.innerHTML =
-        '<div style="font-size:11.5px;color:var(--txt2);margin-bottom:7px">图片已加载 · ' +
-        Math.round(performance.now() - t0i) + ' ms · ' + im.naturalWidth + '×' + im.naturalHeight + '</div>' +
-        '<img src="' + esc(url) + '" alt="' + esc(c.name) + '">';
+      const rec = addHist({ name: c.name, url, status: 200, ms: Math.round(performance.now() - t0i),
+                            dataUri: url, kind: "image", via: "direct", apiRef: apiRef() });
+      compactRes(box, "ok", '✓ 图片已加载 · <b>' + im.naturalWidth + '×' + im.naturalHeight + '</b>', rec);
+      openResult(rec);
     };
     im.onerror = () => {
-      box.innerHTML = '<div class="errline">✕ 图片加载失败（可能被网络限制或站点已下线）</div>';
+      const rec = addHist({ name: c.name, url, kind: "image",
+                            error: "图片加载失败（可能被网络限制、需鉴权或站点已下线）",
+                            hint: "直连模式下浏览器拿不到响应头，无法区分「被限制」与「已下线」。",
+                            apiRef: apiRef() });
+      compactRes(box, "bad", "✕ 图片加载失败", rec);
     };
     im.src = url;
     return;
@@ -1520,42 +1805,15 @@ async function runCurated(i, card, vals){
     let body, isJSON = false;
     try { body = JSON.parse(txt); isJSON = true; } catch(e){}
     const kb = (r.bytes / 1024).toFixed(1);
-    const smart = renderSmart(isJSON ? body : txt, isJSON);
-    box.innerHTML =
-      '<div style="font-size:11.5px;color:var(--txt2);margin-bottom:8px">HTTP ' + r.status +
-      ' · ' + r.ms + ' ms · ' + kb + ' KB' + (isJSON ? ' · JSON' : '') +
-      (r.via === "proxy" ? ' · 代理转发' : '') + '</div>' +
-      '<div class="rt-box">' + smart.html + '</div>' +
-      '<div style="display:flex;gap:6px;margin-top:9px">' +
-        '<button class="btn icon" data-cc="' + i + '">⧉ 复制结果</button>' +
-        '<button class="btn icon" data-json="' + i + '">{} 原始 JSON</button>' +
-        '<button class="btn icon" data-tune2="' + i + '">⚙ 调试</button>' +
-      '</div>';
-    const cp = box.querySelector("[data-cc]");
-    if (cp) cp.onclick = () => copy(isJSON ? JSON.stringify(body, null, 2) : txt, "结果已复制");
-    const jb = box.querySelector("[data-json]");
-    if (jb) jb.onclick = () => {
-      const rbox = box.querySelector(".rt-box");
-      const showingRaw = rbox.dataset.raw === "1";
-      rbox.dataset.raw = showingRaw ? "0" : "1";
-      rbox.innerHTML = showingRaw
-        ? smart.html
-        : '<pre class="code" style="max-height:320px">' + (isJSON ? hlJSON(body) : esc(txt)) + '</pre>';
-      jb.textContent = showingRaw ? "{} 原始 JSON" : "✨ 渲染结果";
-      bindImgErrors(rbox);
-    };
-    bindImgErrors(box);
-    const tn = box.querySelector("[data-tune2]");
-    if (tn) tn.onclick = () => openDrawer(curatedAsApi(c), { headers: c.headers, auto: true, pathVals: vals });
+    const ok = r.status >= 200 && r.status < 300;
+    const rec = addHist({ name: c.name, url, status: r.status, ms: r.ms, kb: +kb, isJSON,
+                          body, rawText: txt, kind: isJSON ? "json" : "text", via: r.via,
+                          apiRef: apiRef() });
+    compactRes(box, ok ? "ok" : "bad",
+      (ok ? "✓ " : "⚠ ") + 'HTTP <b>' + r.status + '</b> · ' + r.ms + ' ms · ' + kb + ' KB', rec);
+    openResult(rec);
   } catch (err){
-    box.innerHTML =
-      '<div class="errline">✕ 请求失败：' + esc(err && err.message || err) + '</div>' +
-      (PROXY
-        ? '<div style="font-size:11.5px;color:var(--txt3);margin-top:7px;line-height:1.6">代理已连接，说明是上游接口本身的问题（临时故障 / 已下线）。可点下方按钮改写地址重试。</div>'
-        : '<div style="font-size:11.5px;color:var(--txt3);margin-top:7px;line-height:1.6">当前是<b>直连模式</b>，受浏览器跨域与页面安全策略限制。运行 <b>serve.py</b> 启动本地服务后即可调用全部接口。</div>') +
-      '<div style="margin-top:8px"><button class="btn icon" data-tune2="' + i + '">⚙ 在调试台打开</button></div>';
-    const tn = box.querySelector("[data-tune2]");
-    if (tn) tn.onclick = () => openDrawer(curatedAsApi(c), { headers: c.headers, auto: false, pathVals: vals });
+    failCurated(card, c, url, vals, err);
   }
 }
 
@@ -1599,7 +1857,7 @@ function renderCurated(){
         '<span class="ctype ' + c.type + '">' + (c.type === "image" ? "图片" : "JSON") + '</span>' +
         (c.ms != null ? '<span class="tag ms">' + c.ms + 'ms</span>' : '') +
       '</div>' +
-      '<div class="inline-res" style="display:none"></div>';
+      '<div class="cres" style="display:none"></div>';
 
     // ---- 参数区：默认收起，点「🔧 参数」展开；点「调用」缺参数时自动展开并聚焦 ----
     const pbox = el.querySelector("[data-pbox]");
