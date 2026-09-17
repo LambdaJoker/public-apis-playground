@@ -184,6 +184,43 @@ acme.sh 安装时会写入每日 cron，到期前 30 天自动续期。
 > ⚠️ DNS-01 也可以（`certbot --manual --preferred-challenges dns`），但每次续期都要人工加
 > TXT 记录，除非 DNS 服务商有 API 凭据，否则不如 ALPN-01 省事。
 
+### 方式 C：没有域名 / 想用裸 IP 访问也不报「不安全」→ Let's Encrypt IP 证书
+
+Let's Encrypt 自 2025 年起支持给 **IP 地址**签发证书（shortlived profile，约 6 天有效），
+配合 TLS-ALPN-01（IP 同样支持该挑战）即可让 `https://<服务器IP>/` 直接显示小锁：
+
+```bash
+# 1. 签发（--days 2 是关键：IP 证书只有 ~6 天寿命，必须 2 天一续）
+acme.sh --issue -d <服务器IP> --alpn --standalone --days 2 \
+        --certificate-profile shortlived --server letsencrypt \
+        --pre-hook "systemctl stop nginx" --post-hook "systemctl start nginx"
+
+# 2. 安装（续期时自动复制并 reload）
+acme.sh --install-cert -d <服务器IP> --ecc \
+        --fullchain-file /etc/nginx/ssl/<服务器IP>.crt \
+        --key-file      /etc/nginx/ssl/<服务器IP>.key \
+        --reloadcmd "nginx -t && systemctl reload nginx"
+```
+
+3. nginx 侧把 443 拆成两个 server 块（`ssl_certificate` 变量/map 方案在部分版本上会导致
+   握手报 `tlsv1 alert internal error`，不要用）：
+
+```nginx
+# 块 A：SNI=域名 时命中，用域名证书；listen 不带 default_server
+# 块 B：接住裸 IP（无 SNI）请求，listen 带 default_server，用 IP 证书
+server {
+    listen      443 ssl http2 default_server;
+    server_name _;
+    ssl_certificate     /etc/nginx/ssl/<服务器IP>.crt;
+    ssl_certificate_key /etc/nginx/ssl/<服务器IP>.key;
+    include /etc/nginx/snippets/<站点公共 location>.conf;   # 与块 A 共用
+}
+```
+
+> ⚠️ 续期由 acme.sh 每日 cron 自动完成（`--days 2` 会让它在 2 天后触发），无需人工干预。
+> ⚠️ 域名与 IP 证书要各自 `--install-cert` 一次，两条记录互不影响。
+
+
 ## 六、数据与许可
 
 | 内容 | 归属 | 许可 |
