@@ -112,6 +112,9 @@ HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<!-- 内联 SVG 图标：零新增文件、零额外请求，同时避免浏览器去要 /favicon.ico 报 404 -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2715%27%20fill%3D%27%230d1220%27%2F%3E%3Cpath%20d%3D%27M40%204%2014%2035h14l-3%2025%2025-31H35z%27%20fill%3D%27%234ade80%27%2F%3E%3C%2Fsvg%3E">
 <title>API 试炼场 · 1826 个公开 API 一键实测</title>
 <style>
 :root{
