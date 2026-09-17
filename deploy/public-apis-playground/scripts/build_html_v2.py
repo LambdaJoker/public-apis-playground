@@ -168,20 +168,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
   .search{order:9;flex:1 1 100%;max-width:none}
 }
 
-/* ============ 页脚：仓库地址卡片 ============ */
-.repogrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 2px}
-@media(max-width:760px){.repogrid{grid-template-columns:1fr}}
-footer.src a.repobox{display:flex;flex-direction:column;gap:5px;padding:13px 15px;
-  border-radius:10px;background:var(--panel2);border:1px solid var(--line2);border-bottom:1px solid var(--line2);
-  transition:.16s;text-decoration:none}
-footer.src a.repobox:hover{border-color:#60a5fa;transform:translateY(-1px);color:inherit}
-footer.src a.repobox.src:hover{border-color:var(--green)}
-.repobox .rbtag{align-self:flex-start;font-size:10.5px;padding:2px 8px;border-radius:5px;
-  background:rgba(96,165,250,.16);color:#93c5fd;border:1px solid rgba(96,165,250,.34)}
-.repobox.src .rbtag{background:rgba(74,222,128,.14);color:var(--green);border-color:rgba(74,222,128,.34)}
-.repobox b{color:var(--txt);font-size:13.5px;font-family:ui-monospace,Consolas,monospace;font-weight:600}
-.repobox .rbdesc{color:var(--txt3);font-size:11.5px;line-height:1.65}
-.repobox .rburl{color:var(--txt2);font-size:11.5px;margin-top:2px}
+
 .licrow{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:13px;padding-top:11px;
   border-top:1px dashed var(--line2)}
 .licrow span{display:inline-flex;align-items:center;gap:6px}
@@ -651,68 +638,14 @@ pre.code::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
 </div>
 
 <footer class="src">
-  <h3>🔗 仓库与许可</h3>
-  <div class="repogrid">
-    <a class="repobox" href="https://github.com/LambdaJoker/public-apis-playground" target="_blank" rel="noopener"
-       title="本项目开源仓库（MIT License）">
-      <span class="rbtag">本项目</span>
-      <b>LambdaJoker/public-apis-playground</b>
-      <span class="rbdesc">API 试炼场 全部源码：页面生成器、CORS 代理、数据流水线、部署包</span>
-      <span class="rburl">github.com/LambdaJoker/public-apis-playground ↗</span>
-    </a>
-    <a class="repobox src" href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener"
-       title="数据来源仓库（MIT License）">
-      <span class="rbtag">数据来源</span>
-      <b>public-apis/public-apis</b>
-      <span class="rbdesc">本页 __TOTAL__ 条接口条目的原始仓库：分类 / 说明 / 鉴权 / HTTPS / CORS 六列数据</span>
-      <span class="rburl">github.com/public-apis/public-apis ↗</span>
-    </a>
-  </div>
   <div class="licrow">
-    <span>📜 本项目许可：<a href="LICENSE" target="_blank">MIT License</a></span>
-    <span>📜 数据许可：<a href="LICENSE-public-apis" target="_blank">MIT License</a>（归 public-apis 社区）</span>
-    <span>⚖️ 完整声明：<a href="NOTICE.md" target="_blank">NOTICE.md</a> · <a href="README.md" target="_blank">README.md</a></span>
+    <span>📦 本项目 <a href="https://github.com/LambdaJoker/public-apis-playground" target="_blank" rel="noopener">LambdaJoker/public-apis-playground</a> · <a href="LICENSE" target="_blank">MIT License</a></span>
+    <span>📊 数据源 <a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener">public-apis/public-apis</a> · <a href="LICENSE-public-apis" target="_blank">MIT License</a></span>
+    <span>⚖️ <a href="NOTICE.md" target="_blank">NOTICE.md</a> · <a href="scripts/" target="_blank">📁 源码与数据</a></span>
   </div>
-
-  <h3 style="margin-top:22px">📌 数据来源与致谢</h3>
-  <div class="fcard">
-    <div class="frow">
-      <span>原仓库：<a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener">github.com/public-apis/public-apis</a></span>
-      <span>许可证：<a href="https://github.com/public-apis/public-apis/blob/master/LICENSE" target="_blank" rel="noopener">MIT License</a></span>
-      <span>原仓库概况：⭐ 480k+ / Python / 社区维护的免费 API 合集</span>
-    </div>
-    <div style="color:var(--txt2);line-height:1.85">
-      本页 <b>__TOTAL__</b> 个接口条目全部来自上述仓库 README 的表格解析（含分类、说明、鉴权、HTTPS、CORS 五列），
-      未做任何删改；分类中文名、可用性实测结果、调试试台界面为本页额外补充，仅作便利性呈现，
-      <b>不改变原仓库的数据与其许可条款</b>。
-    </div>
-    <div class="frow" style="margin-top:12px">
-      <span>📄 调试试台与实测数据由 <b>WorkBuddy</b> 生成</span>
-      <span>🧪 实测方式：带 <code>Origin</code> 头探测，判定标准 = HTTP 200 + 返回 JSON + 存在 <code>Access-Control-Allow-Origin</code></span>
-      <span>🖼 图片类接口用 <code>&lt;img&gt;</code> 渲染（图片请求不受 CORS 限制）</span>
-    </div>
-    <div class="frow" style="margin-top:12px">
-      <span>🔧 附全套 Python 源码：</span>
-      <span><a href="scripts/serve.py" download>serve.py</a>（本地服务 + CORS 代理）</span>
-      <span><a href="scripts/parse_public_apis.py" download>parse_public_apis.py</a>（README 表格解析）</span>
-      <span><a href="scripts/export_public_apis.py" download>export_public_apis.py</a>（导出 xlsx/csv/md/json）</span>
-      <span><a href="scripts/probe_apis.py" download>probe_apis.py</a>（全量可用性探测）</span>
-      <span><a href="scripts/curated_endpoints.py" download>curated_endpoints.py</a>（精选端点实测）</span>
-      <span><a href="scripts/build_html_v2.py" download>build_html_v2.py</a>（本页生成器）</span>
-      <span><a href="README.md" target="_blank">📖 项目 README（数据来源与声明）</a></span>
-      <span><a href="scripts/" target="_blank">📁 浏览全部文件</a></span>
-    </div>
-    <div class="fnote">
-      免责声明：本页仅为第三方接口的导航与调试便利工具，不代理、不缓存任何接口的业务数据；
-      各接口的内容、可用性、调用配额与使用条款均归其各自提供方所有，请遵守对应服务的使用协议与所在地区法律法规。
-      原仓库中标注需鉴权（<code>apiKey</code> / <code>OAuth</code> / <code>X-Mashape-Key</code>）的接口，需自行到服务方申请凭据。
-    </div>
-  </div>
-  <div class="fnote" style="text-align:center;margin-top:18px">
-    API 试炼场 · Public APIs Playground
-    <a href="https://github.com/LambdaJoker/public-apis-playground" target="_blank" rel="noopener">github.com/LambdaJoker/public-apis-playground</a> ·
-    数据源自 <a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener">public-apis/public-apis</a> ·
-    共 __TOTAL__ 个接口 · 精选可直连 __NCUR__ 个 · MIT License
+  <div class="fnote" style="text-align:center;margin-top:14px">
+    共 <b>__TOTAL__</b> 个接口 · 精选可直连 <b>__NCUR__</b> 个 · 实测口径：HTTP 200 + 返回 JSON + 带 CORS 头。<br>
+    各接口内容、配额与使用条款归其提供方所有；标注需鉴权的接口请自行向服务方申请凭据。
   </div>
 </footer>
 

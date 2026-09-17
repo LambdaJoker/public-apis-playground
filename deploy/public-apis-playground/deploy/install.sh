@@ -160,6 +160,14 @@ if ! command -v nginx >/dev/null 2>&1; then
 fi
 
 # ---- 5.1 解析证书：优先 Let's Encrypt，找不到就自签一份顶上 ----
+# 注：证书是不是自签，以 issuer 为准判断 —— acme.sh / certbot 签的真证书
+# 可能落在 /etc/nginx/ssl/（acme.sh --install-cert 的常规落点），不能只认目录名。
+_is_selfsigned() {  # $1=证书路径；issuer 与 subject 相同即自签
+  local i s
+  i="$(openssl x509 -in "$1" -noout -issuer 2>/dev/null || true)"
+  s="$(openssl x509 -in "$1" -noout -subject 2>/dev/null || true)"
+  [ -n "$i" ] && [ "$i" = "${s/subject=/issuer=}" ]
+}
 if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
   SSL_CRT="/etc/letsencrypt/live/$DOMAIN/fullchain.pem"
   SSL_KEY="/etc/letsencrypt/live/$DOMAIN/privkey.pem"
@@ -168,7 +176,11 @@ else
   SSL_CRT="/etc/nginx/ssl/$DOMAIN.crt"
   SSL_KEY="/etc/nginx/ssl/$DOMAIN.key"
   if [ -f "$SSL_CRT" ] && [ -f "$SSL_KEY" ]; then
-    ok "复用已有自签证书：$SSL_CRT"
+    if _is_selfsigned "$SSL_CRT"; then
+      ok "复用已有自签证书：$SSL_CRT"
+    else
+      ok "复用已有证书（受信任，acme.sh/certbot 签发）：$SSL_CRT"
+    fi
   else
     command -v openssl >/dev/null 2>&1 || die "既没有 Let's Encrypt 证书，也没有 openssl 可生成自签证书"
     mkdir -p /etc/nginx/ssl
@@ -243,10 +255,15 @@ else
 fi
 
 # ---------------------------------------------------------------- 结果
+CRT_NOTE=''
+CRT_PATH=''
+[ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ] && CRT_PATH="/etc/letsencrypt/live/$DOMAIN/fullchain.pem"
+[ -f "/etc/nginx/ssl/$DOMAIN.crt" ] && CRT_PATH="/etc/nginx/ssl/$DOMAIN.crt"
+[ -n "$CRT_PATH" ] && _is_selfsigned "$CRT_PATH" && CRT_NOTE='   ← 自签证书，浏览器会提示不安全'
 printf '\n\033[1;32m部署完成\033[0m\n'
 echo  "  站点       http://$DOMAIN/"
 [ -n "$DOMAIN_ALT" ] && echo "  别名       http://$DOMAIN_ALT/（DNS 生效即可用）"
-echo  "  HTTPS      https://$DOMAIN/$([ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ] || echo '   ← 自签证书，浏览器会提示不安全')"
+echo  "  HTTPS      https://$DOMAIN/$CRT_NOTE"
 echo  "  源码下载   http://$DOMAIN/scripts/"
 echo  "  数据集     http://$DOMAIN/data/"
 echo  "  协议文件   http://$DOMAIN/LICENSE"

@@ -135,29 +135,54 @@ curl -s -H 'Host: <你的域名>' http://127.0.0.1/healthz                  # �
 
 | 项目 | 预期 |
 |---|---|
-| `/` 首页 | 200，单文件 HTML（约 480 KB） |
+| `/` 首页 | 200，单文件 HTML（约 500 KB） |
 | `/api/proxy` → 公开接口 | `ok=true`，返回真实 JSON + 耗时 |
 | `/api/proxy` → `169.254.169.254` | 被拦截，提示 `禁止访问本机/内网地址` |
 | `/scripts/serve.py` | 200，源码可直接下载 |
 | `/README.md`、`/NOTICE.md`、`/LICENSE` | 200，`text/plain`，浏览器内直接可读 |
 | `/healthz` | 200，`ok public-apis-playground` |
 
-## 五、HTTPS 证书（可选）
+## 五、HTTPS 证书
 
-站点默认只监听 80 端口也能跑。要上 HTTPS，先把域名解析到服务器，然后：
+站点默认用自签证书顶上（浏览器提示不安全时点「继续访问」即可）。要换成受信任的
+Let's Encrypt 证书，先确认域名已解析到服务器，再按 80 端口是否可用二选一：
+
+### 方式 A：80 端口可用 → HTTP-01（certbot，最省事）
 
 ```bash
-# 1. 签证书（webroot 挑战，nginx 里已留好 /.well-known/acme-challenge/ 的 location）
 certbot certonly --webroot -w /var/www/certbot -d <你的域名>
-
-# 2. 改 nginx vhost 的 443 块
-#    ssl_certificate     /etc/letsencrypt/live/<你的域名>/fullchain.pem;
-#    ssl_certificate_key /etc/letsencrypt/live/<你的域名>/privkey.pem;
+# 然后把 vhost 443 块的 ssl_certificate(.key) 指到 /etc/letsencrypt/live/<域名>/
 nginx -t && systemctl reload nginx
 ```
 
-> 80 端口被上游服务商拦截、拿不到挑战文件时，可改用 **DNS-01 挑战**
-> （`certbot certonly --manual --preferred-challenges dns -d <你的域名>`，在 DNS 服务商加一条 TXT 记录）。
+### 方式 B：80 端口被云厂商拦截（如境内 ICP 备案拦截）→ TLS-ALPN-01
+
+备案拦截发生在请求到达 nginx 之前，**80 端口的 ACME 校验文件永远拿不到**，HTTP-01 必然失败。
+但 443 通常不受影响 —— 用 TLS-ALPN-01 挑战（CA 直连 443 做 TLS 握手）即可绕过：
+
+```bash
+# certbot 1.22 的 standalone 不支持 ALPN，用 acme.sh（不与 certbot 冲突，各自独立续期）
+curl -s https://get.acme.sh | sh        # 服务器访问 GitHub 慢时改用 gitee 镜像克隆安装
+
+# --alpn 是关键：临时停 nginx 抢占 443 应答，签完由 post-hook 拉起（停机约 10 秒）
+acme.sh --issue --alpn -d <你的域名> --server letsencrypt \
+        --pre-hook "systemctl stop nginx" --post-hook "systemctl start nginx"
+
+# 装到 nginx 正在引用的路径，nginx 配置零改动；续期时会自动复制并 reload
+acme.sh --install-cert -d <你的域名> --ecc \
+        --fullchain-file /etc/nginx/ssl/<你的域名>.crt \
+        --key-file      /etc/nginx/ssl/<你的域名>.key \
+        --reloadcmd "nginx -t && systemctl reload nginx"
+```
+
+acme.sh 安装时会写入每日 cron，到期前 30 天自动续期。
+
+> ⚠️ 踩坑：acme.sh 的挑战方式是**按域名逐字段匹配**的，`--standalone --alpn` 两个都传时
+> 单域名只会取到 `standalone`（即 HTTP-01/80），`--alpn` 会被当成第二个域名的配置。
+> **只传 `--alpn`** 才会真正走 TLS-ALPN-01。
+>
+> ⚠️ DNS-01 也可以（`certbot --manual --preferred-challenges dns`），但每次续期都要人工加
+> TXT 记录，除非 DNS 服务商有 API 凭据，否则不如 ALPN-01 省事。
 
 ## 六、数据与许可
 
